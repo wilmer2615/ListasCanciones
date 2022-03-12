@@ -1,0 +1,112 @@
+<div class="row mt-10">
+  <div class="col">
+    <h1>Canción</h1>
+    <hr>
+
+    <form id="formulario" (ngSubmit)="crearCancion(f)" #f="ngForm">
+
+      <div class="form-group">
+        <label for="" class="mt-2">ID Cancion</label>
+        <input type="text" class="form-control" disabled placeholder="ID Autogenerado" [(ngModel)]="miCancion.id"
+          name="id">
+      </div>
+      <div class="form-group">
+        <label for="" class="mt-2">ID Artista</label>
+        <input type="text" class="form-control" disabled placeholder="ID Autogenerado" [(ngModel)]="miCancion.idArtista"
+          name="idArtista">
+      </div>
+
+      <div class="form-group">
+        <label for="" class="mt-2">Artista</label>
+       <select type="text" class="form-control"  required [(ngModel)]="miArtista.id"  name="artista" >
+          <option *ngFor="let artista of artistas" 
+            [value]="artista.id == 0 ? undefined: artista.id "
+            [selected]="artista.id == miCancion.idArtista">
+            {{artista.nombreCompleto}}
+          </option>
+       </select>
+            </div>
+
+
+      <div class="form-group">
+        <label for="" class="mt-2">Cancion</label>
+        <input type="text" class="form-control" placeholder="Nombre Cancion" required
+          [(ngModel)]="miCancion.nombreCancion" name="nombreCancion">
+      </div>
+
+      <div class="form-group">
+        <label for="" class="mt-2">Duracion</label>
+        <input type="text" class="form-control" placeholder="Duracion" required [(ngModel)]="miCancion.duracion"
+          name="duracion">
+      </div>
+
+      <div class="form-group  mb-5">
+        <label for="" class="mt-2">Album</label>
+        <input type="text" class="form-control" placeholder="Nombre del Album" required [(ngModel)]="miCancion.album"
+          name="album">
+      </div>
+
+
+      <hr>
+      <div class="row">
+        <div class="form-group text-center col-6" >
+          <button type="submit" class="btn btn-primary">
+            <i class="fa fa-save"></i>
+            Guardar
+          </button>
+        </div>
+        <div class="form-group text-center col-6" *ngIf="miCancion.id >= 0">
+          <button type="button" class="btn btn-primary" (click)="editarCancion(f)">
+            <i class="fa fa-save"></i>
+            Actualizar
+          </button>
+        </div>
+      </div>
+
+    </form>
+
+    <div class="row mt-5">
+
+      <table class="table table-dark table-hover  ">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Artista</th>
+            <th scope="col">Nombre Cancion</th>
+            <th scope="col">Nombre Artista</th>
+            <th scope="col">Duracion</th>
+            <th scope="col">Album</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cancion of result | paginate: { itemsPerPage: 10, currentPage: page } ;let i = index">
+            <th scope="row">{{cancion.IdCancion}}</th>
+            <td>{{cancion.IdArtista}}</td>
+            <td>{{cancion.NombreCancion}}</td>
+            <td>{{cancion.NombreArtista}}</td>
+            <td>{{cancion.Duracion}}</td>
+            <td>{{cancion.Album}}</td>
+            
+            <td>
+              <button class="btn btn-info mr-1" (click)="cargarCancion(cancion)">
+                <i class="fa fa-pen"></i>
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-danger mr-1" (click)="eliminarCancion(i)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+
+        </tbody>
+      </table>
+      <pagination-controls 
+        (pageChange)="page = $event"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+    </pagination-controls>
+    </div>
+  </div>
+</div>
